@@ -1,0 +1,507 @@
+[
+  {
+    "group": "Basic & Quality (基本・品質)",
+    "items": [
+      {
+        "category": "Quality (品質向上)",
+        "colorVar": "--col-quality",
+        "words": [
+          {"en": "masterpiece", "jp": "傑作"},
+          {"en": "best quality", "jp": "最高品質"},
+          {"en": "ultra detailed", "jp": "超詳細"},
+          {"en": "8k wallpaper", "jp": "8k壁紙"},
+          {"en": "absurdres", "jp": "超高解像度"},
+          {"en": "highly detailed", "jp": "高精細"},
+          {"en": "intricate details", "jp": "繊細な詳細"},
+          {"en": "beautiful detailed", "jp": "美しく詳細"}
+        ]
+      },
+      {
+        "category": "Negative (ネガティブ)",
+        "colorVar": "--col-neg",
+        "words": [
+          {"en": "low quality", "jp": "低品質"},
+          {"en": "worst quality", "jp": "最低品質"},
+          {"en": "bad anatomy", "jp": "崩れた人体"},
+          {"en": "bad hands", "jp": "崩れた手"},
+          {"en": "missing fingers", "jp": "指欠損"},
+          {"en": "extra digits", "jp": "多指"},
+          {"en": "text", "jp": "文字"},
+          {"en": "watermark", "jp": "透かし"},
+          {"en": "jpeg artifacts", "jp": "ノイズ"}
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Character Specs (種族・属性)",
+    "items": [
+      {
+        "category": "Fantasy Race (人外・種族)",
+        "colorVar": "--col-skin",
+        "words": [
+          {"en": "cat girl", "jp": "猫娘/猫耳"},
+          {"en": "wolf girl", "jp": "狼娘/狼耳"},
+          {"en": "fox girl", "jp": "狐娘/狐耳"},
+          {"en": "bunny girl", "jp": "バニーガール/兎耳"},
+          {"en": "elf", "jp": "エルフ"},
+          {"en": "dark elf", "jp": "ダークエルフ"},
+          {"en": "angel", "jp": "天使"},
+          {"en": "demon", "jp": "悪魔"},
+          {"en": "succubus", "jp": "サキュバス"},
+          {"en": "vampire", "jp": "吸血鬼"},
+          {"en": "dragon girl", "jp": "竜娘"},
+          {"en": "mermaid", "jp": "人魚"},
+          {"en": "centaur", "jp": "ケンタウロス"},
+          {"en": "fairy", "jp": "妖精"},
+          {"en": "ghost", "jp": "幽霊"},
+          {"en": "cyborg", "jp": "サイボーグ"},
+          {"en": "android", "jp": "アンドロイド"},
+          {"en": "robot", "jp": "ロボット"},
+          {"en": "monster girl", "jp": "モンスター娘"}
+        ]
+      },
+      {
+        "category": "Gender/Age (性別・年齢)",
+        "colorVar": "--col-skin",
+        "words": [
+          {"en": "1girl", "jp": "1人の少女"},
+          {"en": "1boy", "jp": "1人の少年"},
+          {"en": "young girl", "jp": "若い少女"},
+          {"en": "mature female", "jp": "大人の女性"},
+          {"en": "milf", "jp": "熟女"},
+          {"en": "loli", "jp": "ロリ"},
+          {"en": "shota", "jp": "ショタ"},
+          {"en": "chibi", "jp": "ちびキャラ"},
+          {"en": "bishoujo", "jp": "美少女"},
+          {"en": "bishounen", "jp": "美少年"}
+        ]
+      },
+      {
+        "category": "Body Type (体型)",
+        "colorVar": "--col-skin",
+        "words": [
+          {"en": "slender", "jp": "スレンダー"},
+          {"en": "skinny", "jp": "痩せ型"},
+          {"en": "curvy", "jp": "グラマラス"},
+          {"en": "plump", "jp": "ぽっちゃり"},
+          {"en": "muscular", "jp": "筋肉質"},
+          {"en": "tall", "jp": "高身長"},
+          {"en": "petite", "jp": "小柄"}
+        ]
+      },
+      {
+        "category": "Skin (肌質)",
+        "colorVar": "--col-skin",
+        "words": [
+          {"en": "pale skin", "jp": "色白"},
+          {"en": "tanned skin", "jp": "日焼け肌"},
+          {"en": "dark skin", "jp": "褐色肌"},
+          {"en": "blue skin", "jp": "青肌"},
+          {"en": "green skin", "jp": "緑肌"},
+          {"en": "oiled skin", "jp": "オイル肌"},
+          {"en": "wet skin", "jp": "濡れた肌"}
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Face & Hair (顔・目・髪)",
+    "items": [
+      {
+        "category": "Eye Color (目の色)",
+        "colorVar": "--col-expr",
+        "words": [
+          {"en": "blue eyes", "jp": "青い目"},
+          {"en": "red eyes", "jp": "赤い目"},
+          {"en": "green eyes", "jp": "緑の目"},
+          {"en": "yellow eyes", "jp": "黄色い目"},
+          {"en": "purple eyes", "jp": "紫の目"},
+          {"en": "pink eyes", "jp": "ピンクの目"},
+          {"en": "golden eyes", "jp": "金色の目"},
+          {"en": "silver eyes", "jp": "銀色の目"},
+          {"en": "brown eyes", "jp": "茶色の目"},
+          {"en": "black eyes", "jp": "黒い目"},
+          {"en": "gradient eyes", "jp": "グラデーション瞳"},
+          {"en": "heterochromia", "jp": "オッドアイ"}
+        ]
+      },
+      {
+        "category": "Eye Details (瞳孔・形状)",
+        "colorVar": "--col-expr",
+        "words": [
+          {"en": "detailed eyes", "jp": "詳細な目"},
+          {"en": "tsurime", "jp": "ツリ目"},
+          {"en": "tareme", "jp": "タレ目"},
+          {"en": "jitome", "jp": "ジト目"},
+          {"en": "sanpaku", "jp": "三白眼"},
+          {"en": "slit pupils", "jp": "縦長瞳孔(猫目)"},
+          {"en": "heart-shaped pupils", "jp": "ハート目"},
+          {"en": "star-shaped pupils", "jp": "星型瞳孔"},
+          {"en": "ringed eyes", "jp": "リング状の目"},
+          {"en": "glowing eyes", "jp": "発光する目"},
+          {"en": "no pupils", "jp": "瞳孔なし"}
+        ]
+      },
+      {
+        "category": "Expression (表情)",
+        "colorVar": "--col-expr",
+        "words": [
+          {"en": "smile", "jp": "笑顔"},
+          {"en": "light smile", "jp": "微笑み"},
+          {"en": "laughing", "jp": "笑う"},
+          {"en": "angry", "jp": "怒る"},
+          {"en": "blush", "jp": "赤面"},
+          {"en": "shy", "jp": "恥じらい"},
+          {"en": "crying", "jp": "泣く"},
+          {"en": "expressionless", "jp": "無表情"},
+          {"en": "surprised", "jp": "驚く"},
+          {"en": "pout", "jp": "ふくれっ面"},
+          {"en": "smug", "jp": "ドヤ顔"},
+          {"en": "yandere", "jp": "ヤンデレ"},
+          {"en": "ahegao", "jp": "アヘ顔"},
+          {"en": "open mouth", "jp": "口開け"}
+        ]
+      },
+      {
+        "category": "Hair Color (髪色)",
+        "colorVar": "--col-skin",
+        "words": [
+          {"en": "blonde hair", "jp": "金髪"},
+          {"en": "silver hair", "jp": "銀髪"},
+          {"en": "white hair", "jp": "白髪"},
+          {"en": "black hair", "jp": "黒髪"},
+          {"en": "brown hair", "jp": "茶髪"},
+          {"en": "blue hair", "jp": "青髪"},
+          {"en": "pink hair", "jp": "ピンク髪"},
+          {"en": "red hair", "jp": "赤髪"},
+          {"en": "purple hair", "jp": "紫髪"},
+          {"en": "gradient hair", "jp": "グラデ髪"},
+          {"en": "multicolored hair", "jp": "多色髪"},
+          {"en": "streaked hair", "jp": "メッシュ"}
+        ]
+      },
+      {
+        "category": "Hair Style (髪型)",
+        "colorVar": "--col-skin",
+        "words": [
+          {"en": "long hair", "jp": "ロング"},
+          {"en": "short hair", "jp": "ショート"},
+          {"en": "medium hair", "jp": "ミディアム"},
+          {"en": "very long hair", "jp": "超ロング"},
+          {"en": "bob cut", "jp": "ボブ"},
+          {"en": "hime cut", "jp": "姫カット"},
+          {"en": "wolf cut", "jp": "ウルフカット"},
+          {"en": "drill hair", "jp": "縦ロール"},
+          {"en": "messy hair", "jp": "ボサ髪"},
+          {"en": "pixie cut", "jp": "ピクシーカット"},
+          {"en": "ponytail", "jp": "ポニテ"},
+          {"en": "twintails", "jp": "ツインテ"},
+          {"en": "braids", "jp": "三つ編み"},
+          {"en": "hair bun", "jp": "お団子"},
+          {"en": "ahoge", "jp": "アホ毛"},
+          {"en": "blunt bangs", "jp": "ぱっつん"},
+          {"en": "hair over one eye", "jp": "メカクレ"}
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Art Style & Medium (画風・画材)",
+    "items": [
+      {
+        "category": "Art Style (様式)",
+        "colorVar": "--col-style",
+        "words": [
+          {"en": "anime style", "jp": "アニメ塗り"},
+          {"en": "cel shading", "jp": "セルルック"},
+          {"en": "flat color", "jp": "フラットカラー"},
+          {"en": "art nouveau", "jp": "アール・ヌーヴォー"},
+          {"en": "art deco", "jp": "アール・デコ"},
+          {"en": "baroque", "jp": "バロック"},
+          {"en": "gothic", "jp": "ゴシック"},
+          {"en": "surrealism", "jp": "シュルレアリスム"},
+          {"en": "pop art", "jp": "ポップアート"},
+          {"en": "ukiyo-e", "jp": "浮世絵"},
+          {"en": "retro style", "jp": "レトロスタイル"},
+          {"en": "80s style", "jp": "80年代風"}
+        ]
+      },
+      {
+        "category": "Medium (画材・手法)",
+        "colorVar": "--col-style",
+        "words": [
+          {"en": "oil painting", "jp": "油絵"},
+          {"en": "watercolor", "jp": "水彩画"},
+          {"en": "ink painting", "jp": "水墨画"},
+          {"en": "sumi-e", "jp": "墨絵"},
+          {"en": "sketch", "jp": "スケッチ"},
+          {"en": "pencil drawing", "jp": "鉛筆画"},
+          {"en": "lineart", "jp": "線画"},
+          {"en": "impasto", "jp": "厚塗り"},
+          {"en": "stained glass", "jp": "ステンドグラス"},
+          {"en": "pixel art", "jp": "ドット絵"},
+          {"en": "polaroid", "jp": "ポラロイド風"},
+          {"en": "origami", "jp": "折り紙風"},
+          {"en": "claymation", "jp": "クレイアニメ風"}
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Fashion (服装)",
+    "items": [
+      {
+        "category": "Job/Costume (職業・コス)",
+        "colorVar": "--col-cloth-cos",
+        "words": [
+          {"en": "school uniform", "jp": "制服"},
+          {"en": "serafuku", "jp": "セーラー服"},
+          {"en": "maid", "jp": "メイド服"},
+          {"en": "nurse", "jp": "ナース"},
+          {"en": "police uniform", "jp": "ポリス"},
+          {"en": "miko", "jp": "巫女"},
+          {"en": "nun", "jp": "シスター"},
+          {"en": "cheerleader", "jp": "チア"},
+          {"en": "race queen", "jp": "レースクイーン"},
+          {"en": "china dress", "jp": "チャイナ"},
+          {"en": "bunny girl", "jp": "バニー"},
+          {"en": "armor", "jp": "鎧"},
+          {"en": "gothic lolita", "jp": "ゴスロリ"},
+          {"en": "gym uniform", "jp": "体操服"},
+          {"en": "lab coat", "jp": "白衣"},
+          {"en": "waitress", "jp": "ウェイトレス"},
+          {"en": "ninja", "jp": "忍者"},
+          {"en": "witch", "jp": "魔女"},
+          {"en": "princess dress", "jp": "姫ドレス"},
+          {"en": "wedding dress", "jp": "ウェディングドレス"}
+        ]
+      },
+      {
+        "category": "Japanese (和風)",
+        "colorVar": "--col-cloth-jp",
+        "words": [
+          {"en": "kimono", "jp": "着物"},
+          {"en": "yukata", "jp": "浴衣"},
+          {"en": "hakama", "jp": "袴"},
+          {"en": "haori", "jp": "羽織"},
+          {"en": "japanese clothes", "jp": "和服"},
+          {"en": "fox mask", "jp": "狐面"}
+        ]
+      },
+      {
+        "category": "Tops/Outer (トップス)",
+        "colorVar": "--col-cloth-top",
+        "words": [
+          {"en": "t-shirt", "jp": "Tシャツ"},
+          {"en": "shirt", "jp": "シャツ"},
+          {"en": "blouse", "jp": "ブラウス"},
+          {"en": "sweater", "jp": "セーター"},
+          {"en": "hoodie", "jp": "パーカー"},
+          {"en": "tank top", "jp": "タンク"},
+          {"en": "camisole", "jp": "キャミ"},
+          {"en": "off-shoulder", "jp": "オフショル"},
+          {"en": "halter neck", "jp": "ホルターネック"},
+          {"en": "jacket", "jp": "ジャケット"},
+          {"en": "coat", "jp": "コート"},
+          {"en": "cardigan", "jp": "カーディガン"},
+          {"en": "cape", "jp": "ケープ"}
+        ]
+      },
+      {
+        "category": "Bottoms (ボトムス)",
+        "colorVar": "--col-cloth-btm",
+        "words": [
+          {"en": "skirt", "jp": "スカート"},
+          {"en": "miniskirt", "jp": "ミニスカ"},
+          {"en": "pleated skirt", "jp": "プリーツ"},
+          {"en": "shorts", "jp": "ショーパン"},
+          {"en": "denim", "jp": "デニム"},
+          {"en": "jeans", "jp": "ジーンズ"},
+          {"en": "leggings", "jp": "レギンス"}
+        ]
+      },
+      {
+        "category": "Underwear (下着)",
+        "colorVar": "--col-cloth-in",
+        "words": [
+          {"en": "underwear", "jp": "下着"},
+          {"en": "lingerie", "jp": "ランジェリー"},
+          {"en": "bra", "jp": "ブラ"},
+          {"en": "panties", "jp": "パンツ"},
+          {"en": "striped panties", "jp": "縞パン"},
+          {"en": "lace", "jp": "レース"},
+          {"en": "bikini", "jp": "ビキニ"},
+          {"en": "school swimsuit", "jp": "スク水"},
+          {"en": "bodysuit", "jp": "ボディスーツ"},
+          {"en": "garter belt", "jp": "ガーターベルト"}
+        ]
+      },
+      {
+        "category": "Legwear (足元)",
+        "colorVar": "--col-cloth-leg",
+        "words": [
+          {"en": "thighhighs", "jp": "ニーソ"},
+          {"en": "pantyhose", "jp": "パンスト"},
+          {"en": "black thighhighs", "jp": "黒ニーソ"},
+          {"en": "white thighhighs", "jp": "白ニーソ"},
+          {"en": "bare legs", "jp": "生足"},
+          {"en": "boots", "jp": "ブーツ"},
+          {"en": "sneakers", "jp": "スニーカー"},
+          {"en": "heels", "jp": "ヒール"}
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Action & Interaction (動作・関係)",
+    "items": [
+      {
+        "category": "Action (動作)",
+        "colorVar": "--col-pose",
+        "words": [
+          {"en": "standing", "jp": "立ち"},
+          {"en": "sitting", "jp": "座り"},
+          {"en": "walking", "jp": "歩き"},
+          {"en": "running", "jp": "走り"},
+          {"en": "jumping", "jp": "ジャンプ"},
+          {"en": "kneeling", "jp": "膝立ち"},
+          {"en": "squatting", "jp": "しゃがみ"},
+          {"en": "lying", "jp": "寝そべり"},
+          {"en": "sleeping", "jp": "寝る"},
+          {"en": "eating", "jp": "食べる"},
+          {"en": "drinking", "jp": "飲む"},
+          {"en": "reading", "jp": "読む"},
+          {"en": "fighting", "jp": "戦う"},
+          {"en": "casting spell", "jp": "魔法を唱える"},
+          {"en": "flying", "jp": "飛ぶ"},
+          {"en": "falling", "jp": "落下"}
+        ]
+      },
+      {
+        "category": "Pose (ポーズ)",
+        "colorVar": "--col-pose",
+        "words": [
+          {"en": "looking at viewer", "jp": "カメラ目線"},
+          {"en": "looking back", "jp": "振り返り"},
+          {"en": "looking away", "jp": "よそ見"},
+          {"en": "head tilt", "jp": "首かしげ"},
+          {"en": "arms crossed", "jp": "腕組み"},
+          {"en": "hands on hips", "jp": "腰に手"},
+          {"en": "peace sign", "jp": "ピース"},
+          {"en": "salute", "jp": "敬礼"},
+          {"en": "cat pose", "jp": "猫ポーズ"},
+          {"en": "arms behind head", "jp": "頭の後ろで組む"}
+        ]
+      },
+      {
+        "category": "Interaction (複数人)",
+        "colorVar": "--col-pose",
+        "words": [
+          {"en": "holding hands", "jp": "手をつなぐ"},
+          {"en": "hugging", "jp": "ハグ"},
+          {"en": "back to back", "jp": "背中合わせ"},
+          {"en": "kissing", "jp": "キス"},
+          {"en": "sleeping together", "jp": "添い寝"},
+          {"en": "fighting", "jp": "戦闘"},
+          {"en": "princess carry", "jp": "お姫様抱っこ"},
+          {"en": "headpat", "jp": "頭なでなで"}
+        ]
+      }
+    ]
+  },
+  {
+    "group": "World, Items & Animals (世界・物・生物)",
+    "items": [
+      {
+        "category": "Weapons (武器)",
+        "colorVar": "--col-acc-body",
+        "words": [
+          {"en": "holding sword", "jp": "剣を持つ"},
+          {"en": "katana", "jp": "日本刀"},
+          {"en": "greatsword", "jp": "大剣"},
+          {"en": "dual swords", "jp": "二刀流"},
+          {"en": "scythe", "jp": "大鎌"},
+          {"en": "holding gun", "jp": "銃を持つ"},
+          {"en": "sniper rifle", "jp": "スナイパーライフル"},
+          {"en": "bow and arrow", "jp": "弓矢"},
+          {"en": "magic staff", "jp": "魔法の杖"},
+          {"en": "shield", "jp": "盾"}
+        ]
+      },
+      {
+        "category": "Animals/Creatures (動物)",
+        "colorVar": "--col-bg",
+        "words": [
+          {"en": "cat", "jp": "猫"},
+          {"en": "dog", "jp": "犬"},
+          {"en": "wolf", "jp": "狼"},
+          {"en": "fox", "jp": "狐"},
+          {"en": "bird", "jp": "鳥"},
+          {"en": "rabbit", "jp": "ウサギ"},
+          {"en": "horse", "jp": "馬"},
+          {"en": "dragon", "jp": "ドラゴン"},
+          {"en": "griffin", "jp": "グリフォン"},
+          {"en": "slime", "jp": "スライム"},
+          {"en": "skeleton", "jp": "骸骨"}
+        ]
+      },
+      {
+        "category": "Location (場所)",
+        "colorVar": "--col-bg",
+        "words": [
+          {"en": "simple background", "jp": "シンプル"},
+          {"en": "white background", "jp": "白背景"},
+          {"en": "indoor", "jp": "屋内"},
+          {"en": "bedroom", "jp": "寝室"},
+          {"en": "classroom", "jp": "教室"},
+          {"en": "library", "jp": "図書館"},
+          {"en": "outdoor", "jp": "屋外"},
+          {"en": "city", "jp": "街"},
+          {"en": "cyberpunk city", "jp": "サイバー都市"},
+          {"en": "ruins", "jp": "廃墟"},
+          {"en": "forest", "jp": "森"},
+          {"en": "sea", "jp": "海"},
+          {"en": "space", "jp": "宇宙"},
+          {"en": "fantasy world", "jp": "ファンタジー"},
+          {"en": "castle", "jp": "城"},
+          {"en": "shrine", "jp": "神社"}
+        ]
+      },
+      {
+        "category": "Weather/Season (天気・季節)",
+        "colorVar": "--col-bg",
+        "words": [
+          {"en": "day", "jp": "昼"},
+          {"en": "night", "jp": "夜"},
+          {"en": "sunny", "jp": "晴れ"},
+          {"en": "rain", "jp": "雨"},
+          {"en": "snow", "jp": "雪"},
+          {"en": "sunset", "jp": "夕焼け"},
+          {"en": "spring", "jp": "春"},
+          {"en": "summer", "jp": "夏"},
+          {"en": "autumn", "jp": "秋"},
+          {"en": "winter", "jp": "冬"}
+        ]
+      },
+      {
+        "category": "Effects (演出)",
+        "colorVar": "--col-camera",
+        "words": [
+          {"en": "cinematic lighting", "jp": "映画風光"},
+          {"en": "god rays", "jp": "木漏れ日"},
+          {"en": "lens flare", "jp": "フレア"},
+          {"en": "backlighting", "jp": "逆光"},
+          {"en": "depth of field", "jp": "被写界深度"},
+          {"en": "bokeh", "jp": "ボケ"},
+          {"en": "fire", "jp": "炎"},
+          {"en": "water", "jp": "水"},
+          {"en": "lightning", "jp": "雷"},
+          {"en": "cherry blossoms", "jp": "桜吹雪"},
+          {"en": "falling petals", "jp": "花弁舞う"},
+          {"en": "magic circle", "jp": "魔法陣"}
+        ]
+      }
+    ]
+  }
+]
