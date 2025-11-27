@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SD Prompt Manager Ultimate (v41 MobileFix)</title>
+<title>SD Prompt Manager Ultimate (v37 Fix)</title>
 <style>
   /* --- 基本設定 --- */
   :root {
@@ -38,10 +38,8 @@
   body.is-editing .library-tag:hover { background-color: rgba(245, 158, 11, 0.2); }
   body.is-editing .btn-random-pick { display: none; }
   body.is-editing .category-title, body.is-editing .group-header { cursor: grab !important; user-select: none; }
-  
   .drag-handle { display: none; cursor: grab; color: var(--edit-color); margin-right: 8px; font-size: 1.1rem; padding: 0 2px; }
   body.is-editing .drag-handle { display: inline-block; }
-  
   .edit-actions { display: none; gap: 5px; align-items: center; margin-left: auto; }
   body.is-editing .edit-actions { display: flex; }
   .btn-icon { background: none; border: 1px solid var(--border-col); border-radius: 4px; color: var(--text-muted); cursor: pointer; padding: 4px 8px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
@@ -49,10 +47,10 @@
   .btn-icon.del:hover { background-color: var(--danger-color); border-color: var(--danger-color); }
   .drag-over-target { border: 2px solid var(--accent-color) !important; background-color: rgba(59, 130, 246, 0.1) !important; transition: all 0.1s; }
 
-  /* Header */
+  /* Header (スマホでも固定！) */
   .header-area {
     position: sticky; top: 0; z-index: 1000; width: 100%; background-color: var(--bg-main);
-    border-bottom: 2px solid var(--border-col); padding: 15px 20px;
+    border-bottom: 2px solid var(--border-col); padding: 10px 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; box-sizing: border-box; transition: background-color 0.3s;
   }
   h1 { margin: 5px 0 10px 0; font-size: 1.2rem; letter-spacing: 1px; text-align: center; }
@@ -84,37 +82,40 @@
   button.btn-theme { background-color: #6366f1; padding: 6px 10px; font-size: 1rem; }
   button.btn-edit { background-color: #64748b; margin-left: auto; }
   button.btn-edit.active { background-color: var(--edit-color); box-shadow: 0 0 8px var(--edit-color); color: #111; }
-  button.btn-undo { background-color: #6b7280; }
 
   /* Pool */
   .output-container {
     width: 100%; max-width: 1200px; background-color: var(--bg-panel); border: 1px solid var(--border-col);
     border-radius: 8px; padding: 15px; min-height: 100px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 10px; transition: background-color 0.3s; position: relative;
+    /* スマホでプールが高くなりすぎないようにスクロールをつける */
+    max-height: 200px; overflow-y: auto;
   }
   .output-container:focus-within { border-color: var(--accent-color); }
   .pool-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--border-col); padding-bottom: 8px; }
   .output-label { font-size: 0.8rem; color: var(--text-muted); font-weight: bold; }
   .pool-actions { display: flex; gap: 8px; }
-  .active-tag { display: inline-flex; align-items: center; padding: 6px 10px; margin: 3px; border-radius: 20px; background-color: rgba(128,128,128,0.1); border: 1px solid var(--tag-color); color: var(--tag-color); cursor: pointer; user-select: none; font-family: monospace; font-size: 0.9rem; transition: all 0.1s; }
-  .active-tag:hover { filter: brightness(1.1) contrast(1.1); }
-  .active-tag.selected { background-color: var(--tag-color); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); box-shadow: 0 0 10px var(--tag-color); font-weight: bold; transform: scale(1.05); }
+  button.btn-undo { background-color: #6b7280; }
 
   /* Content */
   .content-area { width: 100%; max-width: 1200px; padding: 20px; box-sizing: border-box; }
   
-  /* Add Form (修正: スマホ対応) */
+  /* Add Form */
   .add-section { background-color: var(--bg-panel); border: 1px solid var(--border-col); border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
   .add-label-title { font-size: 0.9rem; font-weight: bold; color: var(--accent-color); margin-bottom: 8px; display: block; }
   .add-form { width: 100%; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .add-select { background-color: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-col); padding: 12px; border-radius: 6px; flex: 1; min-width: 150px; }
-  .add-input { flex-grow: 2; background-color: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-col); padding: 12px; border-radius: 6px; min-width: 150px; }
+  .add-select { background-color: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-col); padding: 12px; border-radius: 6px; flex: 1; min-width: 200px; }
+  .add-input { flex-grow: 2; background-color: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-col); padding: 12px; border-radius: 6px; min-width: 200px; }
   button.btn-add { background-color: var(--accent-color); padding: 10px 20px; font-size: 1rem; }
+
+  /* Tag */
+  .active-tag { display: inline-flex; align-items: center; padding: 6px 10px; margin: 3px; border-radius: 20px; background-color: rgba(128,128,128,0.1); border: 1px solid var(--tag-color); color: var(--tag-color); cursor: pointer; user-select: none; font-family: monospace; font-size: 0.9rem; transition: all 0.1s; }
+  .active-tag:hover { filter: brightness(1.1) contrast(1.1); }
+  .active-tag.selected { background-color: var(--tag-color); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); box-shadow: 0 0 10px var(--tag-color); font-weight: bold; transform: scale(1.05); }
 
   /* Panels */
   .panel-container { display: flex; gap: 20px; width: 100%; margin-bottom: 20px; align-items: stretch; background-color: var(--bg-panel); padding: 15px; border-radius: 12px; border: 1px solid var(--border-col); box-sizing: border-box; transition: background-color 0.3s; flex-direction: column; }
   .panel-container.hidden { display: none; }
-  /* Tools omitted for brevity, same as v40 */
   .free-edit-box { position: relative; display: flex; flex-direction: column; gap: 10px; }
   .free-textarea { width: 100%; height: 150px; border: 1px solid var(--border-col); border-radius: 6px; background-color: var(--bg-input); color: var(--text-main); padding: 10px; font-family: monospace; font-size: 1rem; line-height: 1.5; resize: vertical; outline: none; }
   #autocomplete-list { position: absolute; top: 100%; left: 0; z-index: 3000; background-color: var(--bg-panel); border: 1px solid var(--border-col); border-radius: 6px; max-height: 200px; overflow-y: auto; width: 300px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: none; }
@@ -128,22 +129,12 @@
   .trans-input { width: 100%; padding: 10px; padding-right: 30px; border-radius: 6px; border: 1px solid var(--border-col); background-color: var(--bg-input); color: var(--text-main); outline: none; font-size: 0.95rem; }
   .btn-input-clear { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; }
   .trans-result { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-col); background-color: var(--bg-input); color: var(--col-quality); font-weight: bold; font-family: monospace; min-height: 20px; display: flex; align-items: center; word-break: break-all; }
-  
   .inspection-container { display: flex; gap: 20px; width: 100%; align-items: stretch; flex-wrap: wrap; }
   .meta-panel { flex: 1; background-color: var(--bg-input); color: var(--text-main); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; min-height: 250px; border: 1px solid var(--border-col); }
   .meta-textarea { width: 100%; flex-grow: 1; border: 1px solid var(--border-col); border-radius: 6px; background-color: var(--bg-main); padding: 10px; font-family: monospace; font-size: 0.85rem; line-height: 1.4; resize: none; outline: none; color: var(--text-main); box-sizing: border-box; }
   .meta-actions { margin-top: 10px; display: flex; gap: 10px; justify-content: flex-end; }
-  
-  /* 画像パネル */
   .image-panel { width: 100%; max-width: 300px; flex-shrink: 0; display: flex; flex-direction: column; }
-  .ref-box {
-    width: 100%; height: 100%; min-height: 250px; background-color: var(--bg-input);
-    border: 2px dashed var(--border-col); border-radius: 12px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: var(--text-muted); position: relative; overflow: hidden; box-sizing: border-box; cursor: pointer; /* タップ可能にする */
-  }
-  .ref-box.dragover { border-color: var(--accent-color); background-color: rgba(59, 130, 246, 0.1); }
-  .ref-text { pointer-events: none; text-align: center; font-size: 0.8rem; padding: 10px; }
+  .ref-box { width: 100%; height: 100%; min-height: 250px; background-color: var(--bg-input); border: 2px dashed var(--border-col); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); position: relative; overflow: hidden; box-sizing: border-box; }
   .ref-preview { width: 100%; height: 100%; object-fit: contain; display: none; }
   .btn-remove-img { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; z-index: 10; }
 
@@ -171,13 +162,15 @@
   .add-group-btn-area { text-align: center; padding: 20px; }
   .btn-add-group { width: 100%; padding: 15px; border: 2px dashed var(--border-col); border-radius: 8px; background-color: transparent; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; transition: all 0.2s; font-weight: bold; }
   .btn-add-group:hover { border-color: var(--accent-color); color: var(--accent-color); background-color: rgba(59, 130, 246, 0.1); }
+  
+  /* Footer */
   .app-footer { width: 100%; max-width: 1200px; margin-top: 40px; padding: 20px; border-top: 1px solid var(--border-col); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
   .creator-name { color: var(--accent-color); font-weight: bold; font-size: 1.1rem; }
   .social-links { margin-top: 10px; }
   .social-links a { color: var(--text-main); text-decoration: none; margin: 0 10px; font-weight: bold; transition: color 0.2s; }
   .social-links a:hover { color: var(--accent-color); }
-  
-  /* Controller, Modal, Toast (省略なし) */
+
+  /* Modal */
   #modal-overlay, #tag-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 6000; display: none; justify-content: center; align-items: center; }
   #modal-overlay.active, #tag-modal-overlay.active { display: flex; }
   .modal-box { background-color: var(--bg-panel); border: 1px solid var(--border-col); border-radius: 12px; padding: 25px; width: 90%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 15px; color: var(--text-main); }
@@ -186,6 +179,8 @@
   .color-picker-row { display: flex; align-items: center; gap: 10px; }
   .color-input { width: 50px; height: 40px; padding: 0; border: none; cursor: pointer; background: none; }
   .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+
+  /* Controller */
   #controller-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--ctrl-bg); border-top: 3px solid var(--accent-color); padding: 15px 10px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 -5px 20px rgba(0,0,0,0.3); z-index: 5000; transform: translateY(120%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   #controller-bar.visible { transform: translateY(0); }
   .ctrl-row-move { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 600px; margin: 0 auto; }
@@ -196,24 +191,15 @@
   .btn-del { background-color: var(--danger-color); border-color: var(--danger-color); color: #fff; width: 60px; }
   .btn-weight { border-color: #10b981; color: #10b981; border-radius: 50%; }
   .wc-label { font-size: 1.4rem; font-weight: bold; font-family: monospace; color: var(--accent-color); width: 80px; text-align: center; }
-  .btn-small { padding: 8px 12px; font-size: 0.85rem; border-radius: 4px; border: none; cursor: pointer; color: #fff; }
-  .btn-copy { background-color: #3b82f6; }
-  .btn-add { background-color: #10b981; }
-  .btn-exec-trans { background-color: #f59e0b; font-weight: bold; }
-  #toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 12px; position: fixed; z-index: 3000; bottom: 30px; left: 50%; transform: translateX(-50%); border-left: 5px solid var(--accent-color); opacity: 0; transition: opacity 0.3s; }
-  #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-  /* ★スマホ用レスポンシブ修正★ */
+  /* Mobile Fix */
   @media (max-width: 768px) {
-    .header-area { padding: 10px; position: static; }
+    .header-area { padding: 10px; position: sticky; top: 0; } /* スマホでも固定に戻す */
     .control-bar { gap: 5px; }
     .panel-container, .inspection-container { flex-direction: column; }
     .image-panel { width: 100%; }
-    
-    /* フォームの縦積み */
     .add-form { flex-direction: column; align-items: stretch; }
     .add-select, .add-input, .btn-add { width: 100%; margin-bottom: 5px; }
-    
     .library-tag::before { display: none; }
     .pool-header { flex-wrap: wrap; gap: 10px; }
   }
@@ -221,13 +207,20 @@
     .library-tag::before { content: attr(data-en); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background-color: #111; color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 0.8rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 2000; box-shadow: 0 4px 10px rgba(0,0,0,0.6); border: 1px solid #555; }
     .library-tag:hover::before { opacity: 1; bottom: 120%; }
   }
+
+  .btn-small { padding: 8px 12px; font-size: 0.85rem; border-radius: 4px; border: none; cursor: pointer; color: #fff; }
+  .btn-copy { background-color: #3b82f6; }
+  .btn-add { background-color: #10b981; }
+  .btn-exec-trans { background-color: #f59e0b; font-weight: bold; }
+  #toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 12px; position: fixed; z-index: 3000; bottom: 30px; left: 50%; transform: translateX(-50%); border-left: 5px solid var(--accent-color); opacity: 0; transition: opacity 0.3s; }
+  #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 </style>
 </head>
 <body>
 
 <div class="header-area">
   <h1 style="display: flex; align-items: center; justify-content: center; gap: 15px;">
-    <img src="logo.png" alt="Logo" style="height: 40px; border-radius: 50%;" onerror="this.style.display='none'">
+    <img src="logo.png" alt="Logo" style="height: 40px; border-radius: 5px;" onerror="this.style.display='none'">
     SD Prompt Manager Ultimate
   </h1>
   
@@ -320,11 +313,10 @@
       </div>
       <div class="image-panel">
         <div class="ref-box" id="ref-drop-zone">
-          <div class="ref-text" id="ref-text">Drop / Paste<br>(Tap to Upload)</div>
+          <div class="ref-text" id="ref-text">Drop / Paste</div>
           <img src="" alt="Reference" class="ref-preview" id="ref-preview">
           <button class="btn-remove-img" id="btn-remove-img" onclick="clearImage()">×</button>
         </div>
-        <input type="file" id="ref-file-input" style="display: none;" accept="image/png" onchange="handleRefFileSelect(this)">
       </div>
     </div>
   </div>
@@ -422,7 +414,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     fetch('data.json').then(res => res.ok ? res.json() : []).then(json => {
         const processed = json.map(g => ({ ...g, items: g.items.map(c => ({ ...c, words: c.words.map(w => (typeof w === 'string' ? {en:w, jp:w} : w)) })) }));
-        const saved = localStorage.getItem('sd_prompt_data_v22'); allData = saved ? JSON.parse(saved) : processed; renderLibrary(); updateCategorySelect();
+        const saved = localStorage.getItem('sd_prompt_data_v38'); allData = saved ? JSON.parse(saved) : processed; renderLibrary(); updateCategorySelect();
     }).catch(console.error);
     const savedTheme = localStorage.getItem('sd_theme_mode'); if (savedTheme === 'light') document.body.classList.add('light-mode');
     document.addEventListener('click', (e) => { if (!e.target.closest('.active-tag') && !e.target.closest('#controller-bar') && !e.target.closest('.ctrl-btn')) { deselectAllTags(); } if (!e.target.closest('.free-edit-box')) autoList.style.display = 'none'; });
@@ -434,18 +426,12 @@
   function updateUndoRedoUI() { document.getElementById('btn-undo').disabled = historyStack.length === 0; document.getElementById('btn-redo').disabled = redoStack.length === 0; }
   function togglePanel(panelId) { const panel = document.getElementById(panelId); if (panel.classList.contains('hidden')) { document.querySelectorAll('.panel-container').forEach(p => p.classList.add('hidden')); panel.classList.remove('hidden'); } else { panel.classList.add('hidden'); } }
   function toggleTheme() { document.body.classList.toggle('light-mode'); localStorage.setItem('sd_theme_mode', document.body.classList.contains('light-mode') ? 'light' : 'dark'); }
-  
-  function toggleEditMode() { 
-    isEditMode = !isEditMode; document.body.classList.toggle('is-editing', isEditMode); 
-    const btn = document.getElementById('btn-edit-mode'); 
-    if(isEditMode) { btn.classList.add('active'); btn.innerText = "✏️ Editing..."; showToast("Edit Mode ON"); enableDragDropLibrary(); } 
-    else { btn.classList.remove('active'); btn.innerText = "✏️ Edit"; showToast("Edit Mode OFF"); renderLibrary(); } 
-  }
+  function toggleEditMode() { isEditMode = !isEditMode; document.body.classList.toggle('is-editing', isEditMode); const btn = document.getElementById('btn-edit-mode'); if(isEditMode) { btn.classList.add('active'); btn.innerText = "✏️ Editing..."; showToast("Edit Mode ON"); enableDragDropLibrary(); } else { btn.classList.remove('active'); btn.innerText = "✏️ Edit"; showToast("Edit Mode OFF"); renderLibrary(); } }
   
   function toggleGroup(gIdx, groupName) { if(expandedGroups.has(groupName)) expandedGroups.delete(groupName); else expandedGroups.add(groupName); renderLibrary(isEditMode); }
   function toggleCat(cName) { if(expandedCats.has(cName)) expandedCats.delete(cName); else expandedCats.add(cName); renderLibrary(isEditMode); }
 
-  /* ... Modals (省略なし) ... */
+  // Modals
   const modalOverlay = document.getElementById('modal-overlay');
   const tagModalOverlay = document.getElementById('tag-modal-overlay');
   const modalTitle = document.getElementById('modal-title');
@@ -455,6 +441,7 @@
   const modalColorInput = document.getElementById('modal-color');
   const modalColorContainer = document.getElementById('color-picker-container');
   const modalSaveBtn = document.getElementById('modal-save-btn');
+
   function openModal() { currentEditTarget = { type: 'new_group' }; modalTitle.innerText = "Create New Group"; modalGroupInput.value = ''; modalCatInput.value = ''; modalColorInput.value = '#3b82f6'; document.getElementById('lbl-gname').innerText = "Group Name (Parent):"; modalGroupInput.style.display = 'block'; catNameContainer.style.display = 'block'; modalColorContainer.style.display = 'flex'; modalSaveBtn.onclick = saveNewGroup; modalSaveBtn.innerText = "Create"; modalOverlay.classList.add('active'); }
   function openRenameGroupModal(gIdx) { currentEditTarget = { type: 'rename_group', gIdx }; modalTitle.innerText = "Rename Group"; modalGroupInput.value = allData[gIdx].group; document.getElementById('lbl-gname').innerText = "Group Name:"; modalGroupInput.style.display = 'block'; catNameContainer.style.display = 'none'; modalColorContainer.style.display = 'none'; modalSaveBtn.onclick = saveRenameGroup; modalSaveBtn.innerText = "Save"; modalOverlay.classList.add('active'); }
   function openRenameCatModal(gIdx, cIdx) { currentEditTarget = { type: 'rename_cat', gIdx, cIdx }; modalTitle.innerText = "Edit Category"; modalGroupInput.style.display = 'none'; document.getElementById('lbl-gname').innerText = ""; const cat = allData[gIdx].items[cIdx]; document.querySelector('#cat-name-container label').innerText = "Category Name:"; modalCatInput.value = cat.category; catNameContainer.style.display = 'block'; modalColorContainer.style.display = 'flex'; let colorVal = cat.colorVar; if (colorVal.startsWith('--')) { const tempSpan = document.createElement('span'); tempSpan.style.color = `var(${colorVal})`; document.body.appendChild(tempSpan); const rgb = getComputedStyle(tempSpan).color; document.body.removeChild(tempSpan); colorVal = rgbToHex(rgb); } modalColorInput.value = colorVal; modalSaveBtn.onclick = saveRenameCat; modalSaveBtn.innerText = "Save"; modalOverlay.classList.add('active'); }
@@ -462,6 +449,7 @@
   function closeModal() { modalOverlay.classList.remove('active'); }
   function closeTagModal() { tagModalOverlay.classList.remove('active'); }
   function rgbToHex(rgb) { if(!rgb || rgb.indexOf('rgb') === -1) return '#000000'; const rgbValues = rgb.match(/\d+/g).map(Number); return "#" + rgbValues.map(x => x.toString(16).padStart(2, '0')).join(''); }
+
   function saveNewGroup() { const gName = modalGroupInput.value.trim(); const cName = modalCatInput.value.trim(); const color = modalColorInput.value; if(!gName || !cName) { alert("Enter names"); return; } recordHistory(); allData.push({ group: gName, items: [{ category: cName, colorVar: color, words: [] }] }); saveToStorage(false); renderLibrary(isEditMode); updateCategorySelect(); closeModal(); showToast("Created!"); }
   function saveRenameGroup() { const newName = modalGroupInput.value.trim(); if(!newName) return; recordHistory(); allData[currentEditTarget.gIdx].group = newName; saveToStorage(false); renderLibrary(isEditMode); closeModal(); }
   function saveRenameCat() { const newName = modalCatInput.value.trim(); if(!newName) return; recordHistory(); allData[currentEditTarget.gIdx].items[currentEditTarget.cIdx].category = newName; allData[currentEditTarget.gIdx].items[currentEditTarget.cIdx].colorVar = modalColorInput.value; saveToStorage(false); renderLibrary(isEditMode); closeModal(); }
@@ -482,7 +470,6 @@
       const titleArea = document.createElement('div'); titleArea.style.display = 'flex'; titleArea.style.alignItems = 'center';
       if(editable) titleArea.innerHTML = `<span class="drag-handle">≡</span> <span>${group.group}</span>`; else titleArea.innerHTML = `<span>${group.group}</span>`;
       header.appendChild(titleArea);
-
       if(editable) {
           const controls = document.createElement('div'); controls.className = 'edit-actions';
           const editBtn = document.createElement('button'); editBtn.className = 'btn-icon'; editBtn.innerHTML = '✎';
@@ -505,18 +492,15 @@
         catBox.className = isCatOpen ? 'category-box' : 'category-box collapsed';
         const colorStyle = cat.colorVar.startsWith('--') ? `var(${cat.colorVar})` : cat.colorVar; catBox.style.setProperty('--box-color', colorStyle);
         if(editable) { catBox.draggable = true; addLibDragEvents(catBox, 'category', gIdx, cIdx); }
-
         const catTitle = document.createElement('div'); catTitle.className = 'category-title';
         const catNameArea = document.createElement('div'); catNameArea.style.display = 'flex'; catNameArea.style.alignItems = 'center';
         if(editable) catNameArea.innerHTML = `<span class="drag-handle">≡</span> <span>${cat.category}</span>`; else catNameArea.innerHTML = `<span>${cat.category}</span>`;
-        
         if(!editable) {
             const randBtn = document.createElement('button'); randBtn.className = 'btn-random-pick'; randBtn.innerText = '🎲';
             randBtn.onclick = (e) => { e.stopPropagation(); pickRandom(gIdx, cIdx, cat.colorVar); };
             catNameArea.insertBefore(randBtn, catNameArea.firstChild);
         }
         catTitle.appendChild(catNameArea);
-
         if(editable) {
             const controls = document.createElement('div'); controls.className = 'edit-actions';
             const editBtn = document.createElement('button'); editBtn.className = 'btn-icon'; editBtn.innerHTML = '✎';
@@ -529,7 +513,6 @@
         }
         catTitle.onclick = (e) => { e.stopPropagation(); toggleCat(cat.category); };
         catBox.appendChild(catTitle);
-
         const tagContainer = document.createElement('div'); tagContainer.className = 'tag-container';
         cat.words.forEach((w, wIdx) => {
             const btn = document.createElement('span'); btn.className = 'library-tag'; btn.innerText = w.jp || w.en; btn.setAttribute('data-en', w.en);
@@ -577,7 +560,7 @@
     });
   }
 
-  // (Autocomplete, Save, Trans Logic same as v40)
+  // Standard Functions
   const freeTextarea = document.getElementById('free-textarea'); const autoList = document.getElementById('autocomplete-list');
   if(freeTextarea) { freeTextarea.addEventListener('input', function(e) { const val = this.value; const cursor = this.selectionStart; const textBefore = val.substring(0, cursor); const match = textBefore.match(/([a-zA-Z0-9_]+)$/); if (match) { const query = match[1].toLowerCase(); if(query.length < 2) { autoList.style.display = 'none'; return; } showSuggestions(query, cursor); } else { autoList.style.display = 'none'; } }); }
   function showSuggestions(query, cursor) { autoList.innerHTML = ''; let count = 0; for (const group of allData) { for (const cat of group.items) { for (const word of cat.words) { if (word.en.toLowerCase().includes(query)) { const div = document.createElement('div'); div.className = 'suggestion-item'; div.innerHTML = `<span class="sug-en">${word.en}</span> <span class="sug-jp">${word.jp || ''}</span>`; div.onclick = () => insertWord(word.en, query.length); autoList.appendChild(div); count++; if(count > 10) break; } } if(count > 10) break; } if(count > 10) break; } if (count > 0) autoList.style.display = 'block'; else autoList.style.display = 'none'; }
@@ -586,17 +569,14 @@
   function addFreeToPool() { const text = freeTextarea.value; if(!text) return; const parts = text.split(/[,\n]/); parts.forEach(p => { const t = p.trim(); if(t) addToPool(t, '--col-quality'); }); }
   function saveWildcard() { const name = document.getElementById('wild-name').value.trim() || "wildcard"; let content = document.getElementById('wild-content').value; content = content.replace(/,/g, '\n').split('\n').map(s => s.trim()).filter(s => s).join('\n'); const blob = new Blob([content], { type: 'text/plain' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${name}.txt`; a.click(); }
   function saveTxt() { const tags = Array.from(pool.children).map(span => span.innerText); const content = tags.join(', '); const blob = new Blob([content], { type: 'text/plain' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `prompt_${new Date().toISOString().slice(0,10)}.txt`; a.click(); }
-  
   function clearTransInput() { const input = document.getElementById('trans-input'); if(input) { input.value = ''; input.focus(); } }
   async function execTranslate() { const input = document.getElementById('trans-input'); const resultBox = document.getElementById('trans-result'); const text = input.value.trim(); if (!text) return; resultBox.innerText = "..."; const hasJapanese = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/.test(text); const langPair = hasJapanese ? "ja|en" : "en|ja"; try { const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`); if(!response.ok) throw new Error("API Error"); const data = await response.json(); if (data.responseData && data.responseData.translatedText) resultBox.innerText = data.responseData.translatedText; else resultBox.innerText = "Error: "+(data.responseDetails||"Unknown"); } catch (err) { resultBox.innerText = "Net Error"; } }
   function addTransToPool() { const resultBox = document.getElementById('trans-result'); const text = resultBox.innerText; if (!text || text.startsWith("...") || text.includes("Error")) return; addToPool(text, '--col-quality'); }
   
   const refZone = document.getElementById('ref-drop-zone'); const refPreview = document.getElementById('ref-preview'); const refText = document.getElementById('ref-text'); const btnRemove = document.getElementById('btn-remove-img'); const metaTextarea = document.getElementById('meta-textarea'); const inspectionPanel = document.getElementById('inspection-panel');
-  // ★スマホ用: タップでファイル選択★
   const refFileInput = document.createElement('input'); refFileInput.type = 'file'; refFileInput.accept = 'image/png'; refFileInput.style.display = 'none'; document.body.appendChild(refFileInput);
   refZone.onclick = () => refFileInput.click();
   refFileInput.onchange = (e) => { if(e.target.files.length > 0) { displayRefImage(e.target.files[0]); readPngMetadata(e.target.files[0]); } };
-  
   document.addEventListener('paste', (e) => { const items = (e.clipboardData || e.originalEvent.clipboardData).items; for (let index in items) { if (items[index].kind === 'file' && items[index].type.includes('image')) { const file = items[index].getAsFile(); displayRefImage(file); readPngMetadata(file); document.querySelectorAll('.panel-container').forEach(p => p.classList.add('hidden')); inspectionPanel.classList.remove('hidden'); } } });
   refZone.addEventListener('dragover', (e) => { e.preventDefault(); refZone.classList.add('dragover'); }); refZone.addEventListener('dragleave', () => refZone.classList.remove('dragover'));
   refZone.addEventListener('drop', (e) => { e.preventDefault(); refZone.classList.remove('dragover'); if (e.dataTransfer.files.length > 0) { const file = e.dataTransfer.files[0]; displayRefImage(file); readPngMetadata(file); inspectionPanel.classList.remove('hidden'); } });
@@ -609,15 +589,15 @@
   document.addEventListener('DOMContentLoaded', () => {
     fetch('data.json').then(res => res.ok ? res.json() : []).then(json => {
         const processed = json.map(g => ({ ...g, items: g.items.map(c => ({ ...c, words: c.words.map(w => (typeof w === 'string' ? {en:w, jp:w} : w)) })) }));
-        const saved = localStorage.getItem('sd_prompt_data_v22'); allData = saved ? JSON.parse(saved) : processed; renderLibrary(); updateCategorySelect();
+        const saved = localStorage.getItem('sd_prompt_data_v38'); allData = saved ? JSON.parse(saved) : processed; renderLibrary(); updateCategorySelect();
     }).catch(console.error);
     const savedTheme = localStorage.getItem('sd_theme_mode'); if (savedTheme === 'light') document.body.classList.add('light-mode');
     document.addEventListener('click', (e) => { if (!e.target.closest('.active-tag') && !e.target.closest('#controller-bar') && !e.target.closest('.ctrl-btn')) { deselectAllTags(); } if (!e.target.closest('.free-edit-box')) autoList.style.display = 'none'; });
   });
   function pickRandom(gIdx, cIdx, colorVar) { const words = allData[gIdx].items[cIdx].words; if (words.length === 0) return; const randomWord = words[Math.floor(Math.random() * words.length)]; addToPool(randomWord.en, colorVar); showToast(`🎲 Picked: ${randomWord.en}`); }
-  function updateCategorySelect() { catSelect.innerHTML = ''; allData.forEach((g, gIdx) => { g.items.forEach((c, cIdx) => { const opt = document.createElement('option'); opt.value = `${gIdx}-${cIdx}`; opt.innerText = `${g.group.split(' ')[0]} > ${c.category.split(' ')[0]}`; catSelect.appendChild(opt); }); }); }
+  function updateCategorySelect() { catSelect.innerHTML = ''; allData.forEach((g, gIdx) => { g.items.forEach((c, cIdx) => { const opt = document.createElement('option'); opt.value = `${gIdx}-${cIdx}`; opt.innerText = `${g.group} > ${c.category}`; catSelect.appendChild(opt); }); }); }
   function addNewWord() { const val = document.getElementById('new-word-input').value.trim(); if (!val) return; const [g, c] = catSelect.value.split('-').map(Number); let en = val, jp = val; if (val.includes(',')) { const p = val.split(','); en = p[0].trim(); jp = p[1].trim(); } const target = allData[g].items[c]; if (!target.words.some(w => w.en === en)) { recordHistory(); target.words.push({en, jp}); saveToStorage(false); renderLibrary(isEditMode); showToast(`Added: ${en}`); document.getElementById('new-word-input').value = ''; } else { alert('Exists'); } }
-  function saveToStorage(record = true) { if(record) recordHistory(); localStorage.setItem('sd_prompt_data_v22', JSON.stringify(allData)); }
+  function saveToStorage(record = true) { if(record) recordHistory(); localStorage.setItem('sd_prompt_data_v38', JSON.stringify(allData)); }
   function downloadJson() { const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2)); const dl = document.createElement('a'); dl.setAttribute("href", str); dl.setAttribute("download", "data.json"); document.body.appendChild(dl); dl.click(); dl.remove(); }
   function handleTagClick(word, colorVar) { navigator.clipboard.writeText(word).then(() => showToast(`Copied: "${word}"`)); addToPool(word, colorVar); }
   function addToPool(word, colorVar) { const span = document.createElement('span'); span.className = 'active-tag'; span.draggable = true; const tagColor = colorVar.startsWith('--') ? `var(${colorVar})` : colorVar; span.style.setProperty('--tag-color', tagColor); span.dataset.word = word; span.dataset.weight = "1.0"; span.innerText = word; span.onclick = (e) => { e.stopPropagation(); selectTag(span); }; span.oncontextmenu = (e) => { e.preventDefault(); span.remove(); updateCount(); deselectAllTags(); }; span.addEventListener('dragstart', function(e) { this.classList.add('dragging'); dragSrcEl = this; e.dataTransfer.effectAllowed = 'move'; }); span.addEventListener('dragend', function(e) { this.classList.remove('dragging'); }); span.addEventListener('dragover', (e) => { e.preventDefault(); return false; }); span.addEventListener('drop', function(e) { e.stopPropagation(); if (dragSrcEl !== this) { pool.insertBefore(dragSrcEl, this); } return false; }); span.addEventListener('wheel', function(e) { e.preventDefault(); if(!this.classList.contains('selected')) selectTag(this); updateWeight(this, e.deltaY < 0 ? 0.1 : -0.1); }); pool.appendChild(span); updateCount(); }
