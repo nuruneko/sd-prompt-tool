@@ -3,14 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SD Prompt Manager Ultimate (v46 Fix)</title>
+<title>SD Prompt Manager Ultimate (v49 Visibility)</title>
 <style>
   /* --- 基本設定 --- */
   :root {
     --bg-main: #1e1e2e; --bg-panel: #2a2b3d; --bg-group: #252636; --bg-input: #181825;
     --text-main: #e0e0e0; --text-muted: #a0a0a0; --border-col: #444;
-    --accent-color: #3b82f6; --danger-color: #ef4444; --btn-text: #fff;
+    --accent-color: #3b82f6; --btn-text: #fff;
     --edit-color: #f59e0b; --add-color: #10b981; --ctrl-bg: #181825;
+    
+    /* 削除ボタン用カラー（鮮やかな赤） */
+    --danger-color: #ef4444; 
+    --danger-bg: rgba(239, 68, 68, 0.15);
     
     /* カテゴリ色 */
     --col-quality: #4ade80; --col-style: #c084fc; --col-color: #d946ef; --col-pattern: #8b5cf6; --col-neg: #ef4444;
@@ -43,35 +47,48 @@
   .drag-handle { display: none; cursor: grab; color: var(--edit-color); margin-right: 8px; font-size: 1.1rem; padding: 0 2px; }
   body.is-editing .drag-handle { display: inline-block; }
   
-  .edit-actions { display: none; gap: 5px; align-items: center; margin-left: auto; }
+  .edit-actions { display: none; gap: 8px; align-items: center; margin-left: auto; }
   body.is-editing .edit-actions { display: flex; }
   
-  .btn-icon { background: none; border: 1px solid var(--border-col); border-radius: 4px; color: var(--text-muted); cursor: pointer; padding: 4px 8px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-  .btn-icon:hover { background-color: var(--edit-color); color: #fff; border-color: var(--edit-color); }
-  .btn-icon.del:hover { background-color: var(--danger-color); border-color: var(--danger-color); color: #fff; }
-  .btn-icon.add { color: var(--add-color); border-color: var(--add-color); font-weight: bold; }
+  /* 編集アイコン (鉛筆) */
+  .btn-icon { 
+    background: var(--bg-input); border: 1px solid var(--edit-color); border-radius: 4px; 
+    color: var(--edit-color); cursor: pointer; padding: 6px 10px; font-size: 0.9rem; 
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s; 
+  }
+  .btn-icon:hover { background-color: var(--edit-color); color: #fff; }
+  
+  /* ★削除アイコン (ゴミ箱) - 色を修正★ */
+  .btn-icon-del {
+    font-size: 0.9rem; background: var(--danger-bg); 
+    color: #ff6b6b; /* 明るい赤 */
+    border: 1px solid var(--danger-color); border-radius: 4px; 
+    padding: 6px 10px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-icon-del:hover { background-color: var(--danger-color); color: #fff; }
+
+  /* ★親グループ削除ボタン - さらに目立たせる★ */
+  .btn-group-delete {
+    display: none; font-size: 0.9rem; font-weight: bold;
+    background: var(--danger-color); color: #fff; 
+    border: 1px solid #fff; border-radius: 4px; 
+    padding: 6px 12px; margin-left: 10px; cursor: pointer;
+  }
+  body.is-editing .btn-group-delete { display: inline-block; }
+  .btn-group-delete:hover { filter: brightness(1.1); }
+
+  /* 追加ボタン (+) */
+  .btn-icon.add { color: var(--add-color); border-color: var(--add-color); font-weight: bold; background: transparent; }
   .btn-icon.add:hover { background-color: var(--add-color); border-color: var(--add-color); color: #fff; }
 
-  /* タグ追加ボタン (+) */
+  /* タグ追加ボタン (カテゴリ内) */
   .btn-tag-add {
-    display: none; /* 通常非表示 */
-    cursor: pointer; border: 1px dashed var(--add-color); color: var(--add-color);
+    display: none; cursor: pointer; border: 1px dashed var(--add-color); color: var(--add-color);
     background: transparent; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: bold;
     align-items: center; gap: 5px; margin: 3px;
   }
   .btn-tag-add:hover { background-color: rgba(16, 185, 129, 0.1); }
-  body.is-editing .btn-tag-add { display: inline-flex; } /* 編集時のみ表示 */
-
-  /* 親グループ追加エリア (通常非表示) */
-  .add-group-btn-area { text-align: center; padding: 20px; display: none; }
-  body.is-editing .add-group-btn-area { display: block; }
-  
-  .btn-add-group {
-    width: 100%; padding: 15px; border: 2px dashed var(--add-color); border-radius: 8px;
-    background-color: transparent; color: var(--add-color); font-size: 1.2rem;
-    cursor: pointer; transition: all 0.2s; font-weight: bold;
-  }
-  .btn-add-group:hover { background-color: rgba(16, 185, 129, 0.1); }
+  body.is-editing .btn-tag-add { display: inline-flex; } 
 
   .drag-over-target { border: 2px solid var(--accent-color) !important; background-color: rgba(59, 130, 246, 0.1) !important; transition: all 0.1s; }
 
@@ -178,6 +195,11 @@
   .library-tag { cursor: pointer; background-color: transparent; border: 1px solid var(--tag-color); color: var(--text-main); opacity: 0.9; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; position: relative; display: flex; align-items: center; gap: 5px; }
   .library-tag.hidden { display: none; }
   .btn-random-pick { background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-right: 10px; transition: transform 0.1s; }
+  .add-group-btn-area { text-align: center; padding: 20px; display: none; }
+  body.is-editing .add-group-btn-area { display: block; }
+  
+  .btn-add-group { width: 100%; padding: 15px; border: 2px dashed var(--add-color); border-radius: 8px; background-color: transparent; color: var(--add-color); font-size: 1.2rem; cursor: pointer; transition: all 0.2s; font-weight: bold; }
+  .btn-add-group:hover { background-color: rgba(16, 185, 129, 0.1); }
   .app-footer { width: 100%; max-width: 1200px; margin-top: 40px; padding: 20px; border-top: 1px solid var(--border-col); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
   .creator-name { color: var(--accent-color); font-weight: bold; font-size: 1.1rem; }
   .social-links { margin-top: 10px; }
@@ -193,7 +215,8 @@
   .color-picker-row { display: flex; align-items: center; gap: 10px; }
   .color-input { width: 50px; height: 40px; padding: 0; border: none; cursor: pointer; background: none; }
   .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
-  .btn-modal-del { background-color: var(--danger-color); color: #fff; margin-right: auto; }
+  /* ★モーダル内の削除ボタン（赤）★ */
+  .btn-modal-del { background-color: var(--danger-color); color: #fff; margin-right: auto; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
   #controller-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--ctrl-bg); border-top: 3px solid var(--accent-color); padding: 15px 10px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 -5px 20px rgba(0,0,0,0.3); z-index: 5000; transform: translateY(120%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   #controller-bar.visible { transform: translateY(0); }
@@ -300,6 +323,7 @@
       </div>
       <div class="trans-row">
         <div id="trans-result" class="trans-result"></div>
+        <a href="#" id="btn-google-trans" class="btn-google" target="_blank" style="background-color:#4285f4; font-size:0.8rem; padding:6px 12px; border-radius:4px; color:#fff; text-decoration:none; display:flex; align-items:center;">G Open</a>
         <button class="btn-small btn-add" onclick="addTransToPool()">Add</button>
       </div>
     </div>
@@ -374,6 +398,7 @@
     </div>
   </div>
 </div>
+
 <div id="tag-modal-overlay" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-title">Edit Tag</div>
@@ -388,6 +413,7 @@
     </div>
   </div>
 </div>
+
 <div id="add-tag-modal-overlay" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-title">Add New Tag</div>
@@ -417,16 +443,18 @@
   let currentEditTarget = null; 
   const expandedGroups = new Set(); const expandedCats = new Set();
 
-  // Logic: Try to load ALL previous versions if present
-  const STORAGE_KEYS = ['sd_prompt_data_v45', 'sd_prompt_data_v44', 'sd_prompt_data_v43', 'sd_prompt_data_v42', 'sd_prompt_data_v38', 'sd_prompt_data_v22', 'sd_prompt_data_v20', 'sd_prompt_data_v11'];
+  // 辞書
+  const translationDict = { "足": "feet", "脚": "legs", "手": "hands", "顔": "face", "目": "eyes", "髪": "hair", "女の子": "1girl", "男の子": "1boy", "背景": "background", "猫耳": "cat ears", "セーラー服": "serafuku", "制服": "school uniform", "水着": "swimsuit" };
 
   function recordHistory() { if (historyStack.length >= MAX_HISTORY) historyStack.shift(); historyStack.push(JSON.stringify(allData)); redoStack.length = 0; updateUndoRedoUI(); }
   function undo() { if (historyStack.length === 0) return; redoStack.push(JSON.stringify(allData)); allData = JSON.parse(historyStack.pop()); saveToStorage(false); renderLibrary(isEditMode); updateUndoRedoUI(); showToast("Undo"); }
   function redo() { if (redoStack.length === 0) return; historyStack.push(JSON.stringify(allData)); allData = JSON.parse(redoStack.pop()); saveToStorage(false); renderLibrary(isEditMode); updateUndoRedoUI(); showToast("Redo"); }
   function updateUndoRedoUI() { document.getElementById('btn-undo').disabled = historyStack.length === 0; document.getElementById('btn-redo').disabled = redoStack.length === 0; }
+
   function togglePanel(panelId) { const panel = document.getElementById(panelId); if (panel.classList.contains('hidden')) { document.querySelectorAll('.panel-container').forEach(p => p.classList.add('hidden')); panel.classList.remove('hidden'); } else { panel.classList.add('hidden'); } }
   function toggleTheme() { document.body.classList.toggle('light-mode'); localStorage.setItem('sd_theme_mode', document.body.classList.contains('light-mode') ? 'light' : 'dark'); }
   function toggleEditMode() { isEditMode = !isEditMode; document.body.classList.toggle('is-editing', isEditMode); const btn = document.getElementById('btn-edit-mode'); if(isEditMode) { btn.classList.add('active'); btn.innerText = "✏️ Editing..."; showToast("Edit Mode ON"); enableDragDropLibrary(); } else { btn.classList.remove('active'); btn.innerText = "✏️ Edit"; showToast("Edit Mode OFF"); renderLibrary(); } }
+  
   function toggleGroup(gIdx, groupName) { if(expandedGroups.has(groupName)) expandedGroups.delete(groupName); else expandedGroups.add(groupName); renderLibrary(isEditMode); }
   function toggleCat(cName) { if(expandedCats.has(cName)) expandedCats.delete(cName); else expandedCats.add(cName); renderLibrary(isEditMode); }
 
@@ -486,7 +514,10 @@
           delBtn.onclick = (e) => { e.stopPropagation(); deleteGroup(gIdx); }; 
           controls.appendChild(addBtn); controls.appendChild(editBtn); controls.appendChild(delBtn);
           header.appendChild(controls);
-      } else { const icon = document.createElement('span'); icon.className = 'group-icon'; icon.innerText = '▼'; header.appendChild(icon); }
+      } else {
+          const icon = document.createElement('span'); icon.className = 'group-icon'; icon.innerText = '▼';
+          header.appendChild(icon);
+      }
       header.onclick = () => toggleGroup(gIdx, group.group);
       groupBox.appendChild(header);
 
@@ -525,9 +556,11 @@
             const btn = document.createElement('span'); btn.className = 'library-tag'; btn.innerText = w.jp || w.en; btn.setAttribute('data-en', w.en);
             const tagColor = cat.colorVar.startsWith('--') ? `var(${cat.colorVar})` : cat.colorVar; btn.style.setProperty('--tag-color', tagColor);
             if(editable) {
-                const dragIcon = document.createElement('span'); dragIcon.className = 'drag-handle'; dragIcon.innerText = '::'; btn.prepend(dragIcon);
+                const dragIcon = document.createElement('span'); dragIcon.className = 'drag-handle'; dragIcon.innerText = '::'; 
+                btn.prepend(dragIcon);
                 btn.draggable = true; addLibDragEvents(btn, 'word', gIdx, cIdx, wIdx);
-                const editIcon = document.createElement('span'); editIcon.className='btn-icon'; editIcon.innerHTML = '✎'; editIcon.style.marginLeft='5px'; editIcon.style.fontSize='0.7rem'; editIcon.style.padding='1px 4px'; btn.appendChild(editIcon);
+                const editIcon = document.createElement('span'); editIcon.className='btn-icon'; editIcon.innerHTML = '✎'; editIcon.style.marginLeft='5px'; editIcon.style.fontSize='0.7rem'; editIcon.style.padding='1px 4px';
+                btn.appendChild(editIcon);
                 editIcon.onclick = (e) => { e.stopPropagation(); openTagEditModal(gIdx, cIdx, wIdx); };
             } else {
                 btn.onclick = () => handleTagClick(w.en, cat.colorVar);
@@ -545,16 +578,25 @@
       groupBox.appendChild(body); library.appendChild(groupBox);
     });
   }
+
   function addLibDragEvents(el, type, gIdx, cIdx = null, wIdx = null) {
     el.addEventListener('dragstart', function(e) { e.stopPropagation(); dragSrcLib = { type, gIdx, cIdx, wIdx, el: this }; dragType = type; this.style.opacity = '0.4'; e.dataTransfer.effectAllowed = 'move'; });
     el.addEventListener('dragend', function(e) { e.stopPropagation(); this.style.opacity = '1'; dragSrcLib = null; document.querySelectorAll('.drag-over-target').forEach(el => el.classList.remove('drag-over-target')); });
     el.addEventListener('dragenter', function(e) { e.preventDefault(); e.stopPropagation(); if(dragType === type && dragSrcLib.el !== this) this.classList.add('drag-over-target'); });
     el.addEventListener('dragleave', function(e) { e.preventDefault(); e.stopPropagation(); this.classList.remove('drag-over-target'); });
     el.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); if(dragType === type) return false; });
-    el.addEventListener('drop', function(e) { e.stopPropagation(); this.classList.remove('drag-over-target'); if (dragSrcLib && dragSrcLib.el !== this && dragSrcLib.type === type) { recordHistory(); if (type === 'group') { const item = allData.splice(dragSrcLib.gIdx, 1)[0]; allData.splice(gIdx, 0, item); } else if (type === 'category') { const item = allData[dragSrcLib.gIdx].items.splice(dragSrcLib.cIdx, 1)[0]; allData[gIdx].items.splice(cIdx, 0, item); expandedGroups.add(allData[gIdx].group); } else if (type === 'word') { const item = allData[dragSrcLib.gIdx].items[dragSrcLib.cIdx].words.splice(dragSrcLib.wIdx, 1)[0]; allData[gIdx].items[cIdx].words.splice(wIdx, 0, item); expandedGroups.add(allData[gIdx].group); expandedCats.add(allData[gIdx].items[cIdx].category); } saveToStorage(false); renderLibrary(true); } return false; });
+    el.addEventListener('drop', function(e) {
+        e.stopPropagation(); this.classList.remove('drag-over-target');
+        if (dragSrcLib && dragSrcLib.el !== this && dragSrcLib.type === type) {
+            recordHistory();
+            if (type === 'group') { const item = allData.splice(dragSrcLib.gIdx, 1)[0]; allData.splice(gIdx, 0, item); }
+            else if (type === 'category') { const item = allData[dragSrcLib.gIdx].items.splice(dragSrcLib.cIdx, 1)[0]; allData[gIdx].items.splice(cIdx, 0, item); expandedGroups.add(allData[gIdx].group); }
+            else if (type === 'word') { const item = allData[dragSrcLib.gIdx].items[dragSrcLib.cIdx].words.splice(dragSrcLib.wIdx, 1)[0]; allData[gIdx].items[cIdx].words.splice(wIdx, 0, item); expandedGroups.add(allData[gIdx].group); expandedCats.add(allData[gIdx].items[cIdx].category); }
+            saveToStorage(false); renderLibrary(true);
+        } return false;
+    });
   }
 
-  // Standard Functions
   const freeTextarea = document.getElementById('free-textarea'); const autoList = document.getElementById('autocomplete-list');
   if(freeTextarea) { freeTextarea.addEventListener('input', function(e) { const val = this.value; const cursor = this.selectionStart; const textBefore = val.substring(0, cursor); const match = textBefore.match(/([a-zA-Z0-9_]+)$/); if (match) { const query = match[1].toLowerCase(); if(query.length < 2) { autoList.style.display = 'none'; return; } showSuggestions(query, cursor); } else { autoList.style.display = 'none'; } }); }
   function showSuggestions(query, cursor) { autoList.innerHTML = ''; let count = 0; for (const group of allData) { for (const cat of group.items) { for (const word of cat.words) { if (word.en.toLowerCase().includes(query)) { const div = document.createElement('div'); div.className = 'suggestion-item'; div.innerHTML = `<span class="sug-en">${word.en}</span> <span class="sug-jp">${word.jp || ''}</span>`; div.onclick = () => insertWord(word.en, query.length); autoList.appendChild(div); count++; if(count > 10) break; } } if(count > 10) break; } if(count > 10) break; } if (count > 0) autoList.style.display = 'block'; else autoList.style.display = 'none'; }
@@ -563,9 +605,22 @@
   function addFreeToPool() { const text = freeTextarea.value; if(!text) return; const parts = text.split(/[,\n]/); parts.forEach(p => { const t = p.trim(); if(t) addToPool(t, '--col-quality'); }); }
   function saveWildcard() { const name = document.getElementById('wild-name').value.trim() || "wildcard"; let content = document.getElementById('wild-content').value; content = content.replace(/,/g, '\n').split('\n').map(s => s.trim()).filter(s => s).join('\n'); const blob = new Blob([content], { type: 'text/plain' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${name}.txt`; a.click(); }
   function saveTxt() { const tags = Array.from(pool.children).map(span => span.innerText); const content = tags.join(', '); const blob = new Blob([content], { type: 'text/plain' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `prompt_${new Date().toISOString().slice(0,10)}.txt`; a.click(); }
+  
   function clearTransInput() { const input = document.getElementById('trans-input'); if(input) { input.value = ''; input.focus(); } }
-  async function execTranslate() { const input = document.getElementById('trans-input'); const resultBox = document.getElementById('trans-result'); const text = input.value.trim(); if (!text) return; resultBox.innerText = "..."; const hasJapanese = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/.test(text); const langPair = hasJapanese ? "ja|en" : "en|ja"; try { const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`); if(!response.ok) throw new Error("API Error"); const data = await response.json(); if (data.responseData && data.responseData.translatedText) resultBox.innerText = data.responseData.translatedText; else resultBox.innerText = "Error: "+(data.responseDetails||"Unknown"); } catch (err) { resultBox.innerText = "Net Error"; } }
+  async function execTranslate() {
+    const input = document.getElementById('trans-input'); const resultBox = document.getElementById('trans-result');
+    const text = input.value.trim(); if (!text) return;
+    resultBox.innerText = "..."; 
+    if(translationDict[text]) { resultBox.innerText = translationDict[text]; return; }
+    const hasJapanese = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/.test(text); const langPair = hasJapanese ? "ja|en" : "en|ja"; 
+    
+    const googleBtn = document.getElementById('btn-google-trans');
+    googleBtn.href = `https://translate.google.com/?sl=auto&tl=${hasJapanese?'en':'ja'}&text=${encodeURIComponent(text)}&op=translate`;
+
+    try { const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`); if(!response.ok) throw new Error("API Error"); const data = await response.json(); if (data.responseData && data.responseData.translatedText) resultBox.innerText = data.responseData.translatedText; else resultBox.innerText = "Error: "+(data.responseDetails||"Unknown"); } catch (err) { resultBox.innerText = "Net Error"; }
+  }
   function addTransToPool() { const resultBox = document.getElementById('trans-result'); const text = resultBox.innerText; if (!text || text.startsWith("...") || text.includes("Error")) return; addToPool(text, '--col-quality'); }
+  
   const refZone = document.getElementById('ref-drop-zone'); const refPreview = document.getElementById('ref-preview'); const refText = document.getElementById('ref-text'); const btnRemove = document.getElementById('btn-remove-img'); const metaTextarea = document.getElementById('meta-textarea'); const inspectionPanel = document.getElementById('inspection-panel');
   const refFileInput = document.createElement('input'); refFileInput.type = 'file'; refFileInput.accept = 'image/png'; refFileInput.style.display = 'none'; document.body.appendChild(refFileInput); refZone.onclick = () => refFileInput.click(); refFileInput.onchange = (e) => { if(e.target.files.length > 0) { displayRefImage(e.target.files[0]); readPngMetadata(e.target.files[0]); } };
   document.addEventListener('paste', (e) => { const items = (e.clipboardData || e.originalEvent.clipboardData).items; for (let index in items) { if (items[index].kind === 'file' && items[index].type.includes('image')) { const file = items[index].getAsFile(); displayRefImage(file); readPngMetadata(file); document.querySelectorAll('.panel-container').forEach(p => p.classList.add('hidden')); inspectionPanel.classList.remove('hidden'); } } });
@@ -580,9 +635,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     fetch('data.json').then(res => res.ok ? res.json() : []).then(json => {
         const processed = json.map(g => ({ ...g, items: g.items.map(c => ({ ...c, words: c.words.map(w => (typeof w === 'string' ? {en:w, jp:w} : w)) })) }));
-        // ★バージョンを v46 にしました。過去データも読み込みます。
-        const saved = localStorage.getItem('sd_prompt_data_v46') || localStorage.getItem('sd_prompt_data_v45') || localStorage.getItem('sd_prompt_data_v44') || localStorage.getItem('sd_prompt_data_v42') || localStorage.getItem('sd_prompt_data_v38');
-        
+        const saved = localStorage.getItem('sd_prompt_data_v45') || localStorage.getItem('sd_prompt_data_v44');
         allData = saved ? JSON.parse(saved) : processed;
         renderLibrary(); 
     }).catch(console.error);
@@ -590,10 +643,7 @@
     document.addEventListener('click', (e) => { if (!e.target.closest('.active-tag') && !e.target.closest('#controller-bar') && !e.target.closest('.ctrl-btn')) { deselectAllTags(); } if (!e.target.closest('.free-edit-box')) autoList.style.display = 'none'; });
   });
   function pickRandom(gIdx, cIdx, colorVar) { const words = allData[gIdx].items[cIdx].words; if (words.length === 0) return; const randomWord = words[Math.floor(Math.random() * words.length)]; addToPool(randomWord.en, colorVar); showToast(`🎲 Picked: ${randomWord.en}`); }
-  
-  // ★v46に変更
-  function saveToStorage(record = true) { if(record) recordHistory(); localStorage.setItem('sd_prompt_data_v46', JSON.stringify(allData)); }
-  
+  function saveToStorage(record = true) { if(record) recordHistory(); localStorage.setItem('sd_prompt_data_v45', JSON.stringify(allData)); }
   function downloadJson() { const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2)); const dl = document.createElement('a'); dl.setAttribute("href", str); dl.setAttribute("download", "data.json"); document.body.appendChild(dl); dl.click(); dl.remove(); }
   function handleTagClick(word, colorVar) { navigator.clipboard.writeText(word).then(() => showToast(`Copied: "${word}"`)); addToPool(word, colorVar); }
   function addToPool(word, colorVar) { const span = document.createElement('span'); span.className = 'active-tag'; span.draggable = true; const tagColor = colorVar.startsWith('--') ? `var(${colorVar})` : colorVar; span.style.setProperty('--tag-color', tagColor); span.dataset.word = word; span.dataset.weight = "1.0"; span.innerText = word; span.onclick = (e) => { e.stopPropagation(); selectTag(span); }; span.oncontextmenu = (e) => { e.preventDefault(); span.remove(); updateCount(); deselectAllTags(); }; span.addEventListener('dragstart', function(e) { this.classList.add('dragging'); dragSrcEl = this; e.dataTransfer.effectAllowed = 'move'; }); span.addEventListener('dragend', function(e) { this.classList.remove('dragging'); }); span.addEventListener('dragover', (e) => { e.preventDefault(); return false; }); span.addEventListener('drop', function(e) { e.stopPropagation(); if (dragSrcEl !== this) { pool.insertBefore(dragSrcEl, this); } return false; }); span.addEventListener('wheel', function(e) { e.preventDefault(); if(!this.classList.contains('selected')) selectTag(this); updateWeight(this, e.deltaY < 0 ? 0.1 : -0.1); }); pool.appendChild(span); updateCount(); }
